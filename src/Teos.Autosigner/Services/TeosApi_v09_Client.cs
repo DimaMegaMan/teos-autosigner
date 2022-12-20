@@ -10,7 +10,7 @@ namespace Teos.Autosigner.Services
 		{
 		}
 
-		public async Task<GetTransactionsResponse> GetNotSignedTransactionsAsync(IEnumerable<string> signerAddresses, IEnumerable<Guid> txsToExclude = null)
+		public async Task<GetTransactionsResponse> GetUnsignedTransactionsAsync(IEnumerable<string> signerAddresses, IEnumerable<Guid> txsToExclude = null)
 		{
 			if (signerAddresses?.Any() == false)
 			{

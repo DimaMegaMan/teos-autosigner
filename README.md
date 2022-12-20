@@ -43,3 +43,5 @@ How to run:
 - run the command to start the app:
 
   ```dotnet run```
+
+- Create a Transaction with the configured public address, it will be signed and submitted with Teos.Autosigner. (Make sure the public address has enough ETH avaiable for signing the transaction)

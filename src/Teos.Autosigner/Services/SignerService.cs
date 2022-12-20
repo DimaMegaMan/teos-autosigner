@@ -23,9 +23,9 @@ namespace Teos.Autosigner.Services
 			var failedIds = new List<Guid>();
 			do
 			{
-				var notSignedResponse = await _teosApiClient.GetNotSignedTransactionsAsync(_wallets.Keys, failedIds);
-				var notSigned = notSignedResponse.Value;
-				foreach (var transaction in notSigned)
+				var getUnsignedTxRepsonse = await _teosApiClient.GetUnsignedTransactionsAsync(_wallets.Keys, failedIds);
+				var unsignedTransactions = getUnsignedTxRepsonse.Value;
+				foreach (var transaction in unsignedTransactions)
 				{
 					try
 					{
@@ -38,7 +38,7 @@ namespace Teos.Autosigner.Services
 						failedIds.Add(transaction.Id);
 					}
 				}
-				moreResults = notSignedResponse.MoreResults;
+				moreResults = getUnsignedTxRepsonse.MoreResults;
 			}
 			while (moreResults);
 		}
