@@ -23,22 +23,22 @@ namespace Teos.Autosigner.Services
 			var failedIds = new List<Guid>();
 			do
 			{
-				var getUnsignedTxRepsonse = await _teosApiClient.GetUnsignedTransactionsAsync(_wallets.Keys, failedIds);
-				var unsignedTransactions = getUnsignedTxRepsonse.Value;
+				var getUnsignedTxResponse = await _teosApiClient.GetUnsignedTransactionsAsync(_wallets.Keys, failedIds);
+				var unsignedTransactions = getUnsignedTxResponse.Value;
 				foreach (var transaction in unsignedTransactions)
 				{
 					try
 					{
 						var bcHash = await SingTransactionAsync(transaction);
-						_logger.LogInformation("Succesfully submitted transaction (Id: '{txId}', bcHash: '{bcHash}')", transaction.Id, bcHash);
+						_logger.LogInformation("Successfully submitted transaction (Id: '{txId}', bcHash: '{bcHash}')", transaction.Id, bcHash);
 					}
 					catch (Exception ex)
 					{
-						_logger.LogWarning(ex, "An error occured while signing transaction (Id: '{txId)'}", transaction.Id);
+						_logger.LogWarning(ex, "An error occurred while signing transaction (Id: '{txId)'}", transaction.Id);
 						failedIds.Add(transaction.Id);
 					}
 				}
-				moreResults = getUnsignedTxRepsonse.MoreResults;
+				moreResults = getUnsignedTxResponse.MoreResults;
 			}
 			while (moreResults);
 		}
@@ -57,11 +57,11 @@ namespace Teos.Autosigner.Services
 				data: signingParameters.DataToSign
 			);
 
-			var signedTx = new SignedTranasction
+			var signedTx = new SignedTransaction
 			{
 				SignerAddress = transaction.SignedBy,
 				TransactionId = transaction.Id,
-				SignedTransaction = signedTransaction,
+				SignedTransactionId = signedTransaction,
 				Description = "Hello, autosigner world"
 			};
 

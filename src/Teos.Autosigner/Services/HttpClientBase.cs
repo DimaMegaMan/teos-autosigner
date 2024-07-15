@@ -6,7 +6,7 @@ namespace Teos.Autosigner.Services
 {
 	public abstract class HttpClientBase
 	{
-		private static JsonSerializerOptions _jsonSerializerOptions;
+		private static readonly JsonSerializerOptions _jsonSerializerOptions;
 
 		static HttpClientBase()
 		{
@@ -52,9 +52,9 @@ namespace Teos.Autosigner.Services
 
 			if (!resp.IsSuccessStatusCode)
 			{
-				_logger.LogError("Status code: {statusCode}, url: {url},\nrequest body: {reqBbody},\nresponse body: {respBbody}",
+				_logger.LogError("Status code: {statusCode}, url: {url},\nrequest body: {reqBody},\nresponse body: {respBody}",
 					resp.StatusCode, resp.RequestMessage.RequestUri, request.jsonContent, respBody);
-				throw new Exception("Error occured while executing http-request");
+				throw new Exception("Error occurred while executing http-request");
 			}
 
 			return respBody;

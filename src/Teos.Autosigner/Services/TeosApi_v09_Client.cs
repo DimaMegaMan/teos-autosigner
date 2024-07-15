@@ -40,10 +40,10 @@ namespace Teos.Autosigner.Services
 			return SendRequestAsync<SigningParameters>(HttpMethod.Get, path);
 		}
 
-		public Task<SubmittedTransaction> SubmitSignedTransactionAsync(SignedTranasction signedTranasction)
+		public Task<SubmittedTransaction> SubmitSignedTransactionAsync(SignedTransaction signedTransaction)
 		{
-			var path = $"Transactions({signedTranasction.TransactionId})/Submit";
-			return SendRequestAsync<SubmittedTransaction>(HttpMethod.Post, path, signedTranasction);
+			var path = $"Transactions({signedTransaction.TransactionId})/Submit";
+			return SendRequestAsync<SubmittedTransaction>(HttpMethod.Post, path, signedTransaction);
 		}
 	}
 }
