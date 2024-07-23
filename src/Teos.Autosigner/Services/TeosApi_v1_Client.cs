@@ -1,5 +1,4 @@
-﻿using System.IO;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using Teos.Autosigner.Model;
 
 namespace Teos.Autosigner.Services

@@ -1,6 +1,4 @@
-﻿using Nethereum.Signer;
-
-namespace Teos.Autosigner.Model
+﻿namespace Teos.Autosigner.Model
 {
 	public class Transaction
 	{
