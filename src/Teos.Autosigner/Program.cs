@@ -25,6 +25,8 @@ namespace Teos.Autosigner
 			services.Configure<SignerServiceOptions>(configuration.GetSection(nameof(SignerServiceOptions)));
 			services.AddSingleton<SignerService>();
 
+			services.AddSingleton<ValidationService>();
+
 			services.Configure<AutosignerWorkerOptions>(configuration.GetSection(nameof(AutosignerWorkerOptions)));
 			services.AddHostedService<AutosignerWorker>();
 

@@ -26,7 +26,7 @@ namespace Teos.Autosigner.Services
 				filter += $" and {excludeCondition}";
 			}
 			var orderBy = "$orderby=OnCreated";
-			var select = "$select=Id,SignedBy";
+			var select = "$select=Id,Type,SignedBy,DataAsJson";
 			var path = $"Transactions?{filter}&{orderBy}&{select}";
 
 			var response = await SendRequestAsync<GetTransactionsResponse>(HttpMethod.Get, path);
@@ -40,7 +40,7 @@ namespace Teos.Autosigner.Services
 			return SendRequestAsync<SigningParameters>(HttpMethod.Get, path);
 		}
 
-		public Task<SubmittedTransaction> SubmitSignedTransactionAsync(SignedTransaction signedTransaction)
+		public Task<SubmittedTransaction> SubmitSignedTransactionAsync(SignedTransactionModel signedTransaction)
 		{
 			var path = $"Transactions({signedTransaction.TransactionId})/Submit";
 			return SendRequestAsync<SubmittedTransaction>(HttpMethod.Post, path, signedTransaction);
@@ -48,7 +48,7 @@ namespace Teos.Autosigner.Services
 
 		public async Task<Asset> GetAssetAsync(string assetId)
 		{
-			var path = $"Assets({assetId})";
+			var path = $"Assets('{assetId}')";
 			var response = await SendRequestAsync<Asset>(HttpMethod.Get, path);
 			return response;
 		}

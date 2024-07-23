@@ -1,5 +1,6 @@
 ﻿using System.Net.Http.Headers;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Teos.Autosigner.Model;
 
 namespace Teos.Autosigner.Services
@@ -15,6 +16,7 @@ namespace Teos.Autosigner.Services
 				PropertyNameCaseInsensitive = true,
 			};
 			_jsonSerializerOptions.Converters.Add(new BigIntegerJsonConverter());
+			_jsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 		}
 
 		private readonly IAccessTokenProvider _accessTokenProvider;

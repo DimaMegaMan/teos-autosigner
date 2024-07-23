@@ -40,7 +40,7 @@ namespace Teos.Autosigner.Services
 						}
 
 						var bcHash = await SingTransactionAsync(transaction);
-						_logger.LogInformation("Successfully submitted transaction (Id: '{txId}', bcHash: '{bcHash}')", transaction.Id, bcHash);
+						_logger.LogInformation("Successfully submitted transaction (Id: '{txId}', Type:{type} BcHash: '{bcHash}')", transaction.Id, transaction.Type, bcHash);
 					}
 					catch (Exception ex)
 					{
@@ -67,11 +67,11 @@ namespace Teos.Autosigner.Services
 				data: signingParameters.DataToSign
 			);
 
-			var signedTx = new SignedTransaction
+			var signedTx = new SignedTransactionModel
 			{
 				SignerAddress = transaction.SignedBy,
 				TransactionId = transaction.Id,
-				SignedTransactionId = signedTransaction,
+				SignedTransaction = signedTransaction,
 				Description = "Hello, autosigner world"
 			};
 
