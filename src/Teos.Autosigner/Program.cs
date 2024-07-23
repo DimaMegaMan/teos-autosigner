@@ -20,7 +20,7 @@ namespace Teos.Autosigner
 		{
 			services.AddSingleton<SocketsHttpHandler>();
 			services.Configure<TeosApiClientOptions>(configuration.GetSection(nameof(TeosApiClientOptions)));
-			services.AddSingleton<TeosApi_v09_Client>();
+			services.AddSingleton<TeosApi_v1_Client>();
 
 			services.Configure<SignerServiceOptions>(configuration.GetSection(nameof(SignerServiceOptions)));
 			services.AddSingleton<SignerService>();

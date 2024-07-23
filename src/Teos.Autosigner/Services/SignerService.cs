@@ -6,14 +6,17 @@ namespace Teos.Autosigner.Services
 {
 	internal class SignerService
 	{
-		private readonly TeosApi_v09_Client _teosApiClient;
-		private readonly ILogger<SignerService> _logger;
+		private readonly TeosApi_v1_Client _teosApiClient;
 		private readonly Dictionary<string, string> _wallets;
+		private readonly ValidationService _validationService;
+		private readonly ILogger<SignerService> _logger;
 
-		public SignerService(IOptions<SignerServiceOptions> options, TeosApi_v09_Client teosApiClient, ILogger<SignerService> logger)
+
+		public SignerService(TeosApi_v1_Client teosApiClient, IOptions<SignerServiceOptions> options, ValidationService validationService, ILogger<SignerService> logger)
 		{
-			_wallets = options.Value.Wallets.ToDictionary(w => w.PublicAddress.ToLower(), w => w.PrivateKey);
 			_teosApiClient = teosApiClient;
+			_wallets = options.Value.Wallets.ToDictionary(w => w.PublicAddress.ToLower(), w => w.PrivateKey);
+			_validationService = validationService;
 			_logger = logger;
 		}
 
@@ -29,6 +32,13 @@ namespace Teos.Autosigner.Services
 				{
 					try
 					{
+						var validationResult = await _validationService.ValidateTransactionAsync(transaction);
+						if (!validationResult.Success)
+						{
+							_logger.LogInformation(validationResult.ErrorMessage);
+							continue;
+						}
+
 						var bcHash = await SingTransactionAsync(transaction);
 						_logger.LogInformation("Successfully submitted transaction (Id: '{txId}', bcHash: '{bcHash}')", transaction.Id, bcHash);
 					}

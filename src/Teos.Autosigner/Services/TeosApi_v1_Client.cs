@@ -1,11 +1,12 @@
-﻿using Microsoft.Extensions.Options;
+﻿using System.IO;
+using Microsoft.Extensions.Options;
 using Teos.Autosigner.Model;
 
 namespace Teos.Autosigner.Services
 {
-	internal class TeosApi_v09_Client : HttpClientBase
+	internal class TeosApi_v1_Client : HttpClientBase
 	{
-		public TeosApi_v09_Client(IOptions<TeosApiClientOptions> options, ILogger<TeosApi_v09_Client> logger, SocketsHttpHandler socketsHttpHandler)
+		public TeosApi_v1_Client(IOptions<TeosApiClientOptions> options, ILogger<TeosApi_v1_Client> logger, SocketsHttpHandler socketsHttpHandler)
 			: base(new ApiKeyAccessTokenProvider(options.Value.ApiKey), socketsHttpHandler, logger, options.Value)
 		{
 		}
@@ -44,6 +45,13 @@ namespace Teos.Autosigner.Services
 		{
 			var path = $"Transactions({signedTransaction.TransactionId})/Submit";
 			return SendRequestAsync<SubmittedTransaction>(HttpMethod.Post, path, signedTransaction);
+		}
+
+		public async Task<Asset> GetAssetAsync(string assetId)
+		{
+			var path = $"Assets({assetId})";
+			var response = await SendRequestAsync<Asset>(HttpMethod.Get, path);
+			return response;
 		}
 	}
 }
